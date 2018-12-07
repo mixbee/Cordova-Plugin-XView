@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-xview"
+    version="1.0.0">
+
+  <name>XView</name>
+  <description>
+    This plugin allows your application to retrieve the local wifi address and proxy information.
+	</description>
+  <license>MIT</license>
+  <keywords>webview</keywords>
+
+	<engines>
+		<engine name="cordova" version="&gt;=3.1.0" />
+    <engine name="cordova-ios" version=">=4.0.0" />
+    <engine name="apple-ios" version=">=9.0" />
+	</engines>
+
+  <!-- ios -->
+  <platform name="ios">
+
+    <js-module src="www/ios/ios-xview-exec.js" name="ios-xview-exec">
+      <clobbers target="cordova.exec" />
+    </js-module>
+
+    <js-module src="www/ios/ios-xview.js" name="ios-xview">
+      <clobbers target="window.XView" />
+    </js-module>
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVXView" />
+      </feature>
+      <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    </config-file>
+
+    <framework src="WebKit.framework" weak="true" />
+
+    <header-file src="src/ios/src/CDVWKWebViewEngine.h" />
+    <source-file src="src/ios/src/CDVWKWebViewEngine.m" />
+    <header-file src="src/ios/src/CDVWKWebViewUIDelegate.h" />
+    <source-file src="src/ios/src/CDVWKWebViewUIDelegate.m" />
+    <header-file src="src/ios/src/CDVWKProcessPoolFactory.h" />
+    <source-file src="src/ios/src/CDVWKProcessPoolFactory.m" />
+  </platform>
+
+  <!-- android -->
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <preference name="webView" value="org.apache.cordova.xview.XViewWebViewEngine"/>
+      <preference name="appUserAgent" value="XView"/>
+      <preference name="android-minSdkVersion" value="15" />
+	    <allow-navigation href="*"></allow-navigation>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    </config-file>
+
+    <source-file src="src/android/src/XViewCookieManager.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewCordovaClientCertRequest.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewCordovaHttpAuthHandler.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewExposedJsApi.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewWebChromeClient.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewWebView.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewWebViewClient.java" target-dir="src/org/apache/cordova/xview"/>
+    <source-file src="src/android/src/XViewWebViewEngine.java" target-dir="src/org/apache/cordova/xview"/>
+
+    <lib-file src="src/android/libs/tbs_sdk_thirdapp_v3.6.0.1352_43618_sharewithdownload_withoutGame_obfs_20180918_120327.jar" />
+    <lib-file src="src/android/libs/armeabi/liblbs.so" />
+  </platform>
+</plugin>
